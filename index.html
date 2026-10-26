@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Renk Körlüğü Testi</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- GİRİŞ EKRANI -->
+        <div id="welcome-screen" class="screen active">
+            <div class="card animate-fade">
+                <div class="app-icon">🎨</div>
+                <h1>Renk Körlüğü Testi</h1>
+                <p class="subtitle">Net ve optimize edilmiş Ishihara plakaları ile renk algınızı test edin.</p>
+                <div class="features-list">
+                    <div class="feature-item"><span>✨</span> Net, sade ve kolay okunabilir test plakaları</div>
+                    <div class="feature-item"><span>📱</span> 10 Aşamalı dokunma ve sayı bulma testi</div>
+                    <div class="feature-item"><span>📊</span> Klinik tabanlı renk körlüğü analiz raporu</div>
+                    <div class="feature-item"><span>⚡</span> Çevrimdışı (Offline) PWA Desteği</div>
+                </div>
+                <button id="start-btn" class="btn primary-btn">Teste Başla</button>
+            </div>
+        </div>
+
+        <!-- TEST EKRANI -->
+        <div id="test-screen" class="screen">
+            <header class="test-header">
+                <div class="progress-info">
+                    <span id="current-step">Aşama 1/10</span>
+                    <span id="test-type-badge" class="badge">Test Ediliyor</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+            </header>
+
+            <main class="test-main">
+                <div class="instruction-box" id="instruction-text">
+                    Görseldeki gizli sayıyı giriniz.
+                </div>
+
+                <div class="canvas-wrapper">
+                    <div id="svg-container"></div>
+                </div>
+
+                <!-- Mod 1: Sayı Girişi -->
+                <div id="input-mode" class="interaction-mode active">
+                    <div class="input-group">
+                        <input type="number" id="number-input" placeholder="Sayısı girin (Örn: 5)" pattern="[0-9]*" inputmode="numeric" min="1" max="99">
+                        <button id="submit-number-btn" class="btn primary-btn">İlerle</button>
+                    </div>
+                </div>
+
+                <!-- Mod 2: Dokunma Alanı -->
+                <div id="touch-mode" class="interaction-mode">
+                    <p class="touch-hint">Farklı renkteki gizli şekle ekrandan dokunun.</p>
+                </div>
+            </main>
+        </div>
+
+        <!-- SONUÇ EKRANI -->
+        <div id="result-screen" class="screen">
+            <div class="card animate-fade">
+                <div class="result-header">
+                    <div class="result-icon" id="result-main-icon">👁️</div>
+                    <h2 id="result-title">Test Tamamlandı</h2>
+                    <p id="result-subtitle">Klinik renk algısı değerlendirme raporunuz</p>
+                </div>
+
+                <div class="metrics-container" id="metrics-container"></div>
+
+                <div class="result-actions">
+                    <button id="restart-btn" class="btn primary-btn">Testi Yeniden Başlat</button>
+                    <button id="install-btn" class="btn secondary-btn" style="display:none;">Uygulamayı Kur</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
